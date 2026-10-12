@@ -1,0 +1,12 @@
+patch-spas-bw	PATCHES	450			Патч «Спас Нерукотворний» (чорно-білий)
+patch-spas-olive	PATCHES	470			Патч «Спас Нерукотворний» (олива)
+patch-khrystos-voskres	PATCHES	350			Патч «Христос-Воскрес»
+patch-chekayu-voskresinnia	PATCHES	300			Патч «Чекаю воскресіння мертвих»
+patch-nenavydzhu-antykhrysta	PATCHES	250			Патч «Я ненавиджу Антихриста»
+patch-pitbul-kyiv	PATCHES	250			Патч «Пітбуль Київ»
+patch-hetmanski-khuliahiny	PATCHES	300			Патч «Гетьманські_Хулагіни»
+patch-mech-mykhaila	PATCHES	350			Патч «Меч Михаїла»
+patch-orden	PATCHES	250			Патч «Орден»
+pin-holgofa	PINS	350			Пін «Голгофа»
+pin-klynok-viry	PINS	250			Пін «Клинок Віри»
+flag-spas	FLAGS	650			Прапор «Спас Нерукотворний»
