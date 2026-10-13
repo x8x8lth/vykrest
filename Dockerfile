@@ -10,6 +10,8 @@ RUN mvn -q -B package -DskipTests
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /build/target/vkrst-store-bot.jar app.jar
-# data/ — каталог товарів (products.tsv), images/ — запасні локальні фото
-RUN mkdir -p /app/data /app/images
+# фото товарів і екранів лежать у репозиторії, тому не зникають при перезапуску
+COPY images ./images
+# data/ — каталог товарів (products.tsv)
+RUN mkdir -p /app/data
 ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75", "-jar", "app.jar"]
