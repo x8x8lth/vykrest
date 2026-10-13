@@ -2,7 +2,10 @@ package ua.vkrst.store;
 
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 
+import com.sun.net.httpserver.HttpServer;
+
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,11 +22,31 @@ public class Main {
         String monoUrl = env.getOrDefault(
                 "MONO_URL", "https://send.monobank.ua/jar/21HJGxMV2a");
 
+        // Render (Web Service) вимагає відкритий HTTP-порт; змінну PORT він задає сам
+        String port = env.get("PORT");
+        if (port != null && !port.isBlank()) {
+            startHealthServer(Integer.parseInt(port.strip()));
+        }
+
         try (TelegramBotsLongPollingApplication app = new TelegramBotsLongPollingApplication()) {
             app.registerBot(token, new StoreBot(token, adminChatId, monoUrl));
             System.out.println("VKRST.83 [STORE] bot started");
             Thread.currentThread().join();
         }
+    }
+
+    /** Мінімальний HTTP-сервер: відповідає «OK» (для Render і для пінгів UptimeRobot). */
+    private static void startHealthServer(int port) throws IOException {
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+        server.createContext("/", exchange -> {
+            byte[] body = "OK".getBytes(StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(200, body.length);
+            try (var os = exchange.getResponseBody()) {
+                os.write(body);
+            }
+        });
+        server.start();
+        System.out.println("Health server on port " + port);
     }
 
     /** Змінні середовища + файл .env у корені проєкту (якщо є). */
